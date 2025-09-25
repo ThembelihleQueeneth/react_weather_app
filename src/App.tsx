@@ -1,17 +1,15 @@
 import './App.css'
-import { Cards } from './components/Cards/Cards'
-import { Hero } from './components/Hero/Hero'
-import { Navbar } from './components/Navbar/Navbar'
-import { Content } from './components/Content/Content'
+import { DisplayWeather } from './components/Pages/DisplayWeather'
+
+// import { FaSpinner } from "react-icons/fa";
+// <FaSpinner />
 
 
 function App() {
   return(
   <>
-  <Navbar />
-  <Hero/>
-  <Cards />
-  <Content />
+  <DisplayWeather />
+  
   
   
  
