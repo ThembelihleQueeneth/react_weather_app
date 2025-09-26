@@ -76,6 +76,10 @@ export const DisplayWeather = () => {
     }
   };
 
+  const handleMenuBtn = ()=>{
+    alert('Working on that feature');
+  }
+
   // Helper to pick icon based on weather condition
   const getWeatherIcon = (main: string, isNight: boolean = false) => {
     switch (main) {
@@ -103,14 +107,16 @@ export const DisplayWeather = () => {
           <input
             type="text"
             placeholder="Enter Location"
-            className="mt-5 bg-amber-50 w-80 h-10 pl-5 rounded-full"
+            className="mt-5 shadow-xl/30 bg-amber-50 w-80 h-10 pl-5 rounded-full cursor-pointer"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && fetchWeather()}
           />
         </div>
         <div>
-          <CiMenuBurger className="mr-10 mt-6 w-6 h-6" />
+          <button onClick={handleMenuBtn}>
+            <CiMenuBurger className="mr-10 mt-6 w-6 h-6 cursor-pointer" />
+          </button>
         </div>
       </nav>
 
@@ -122,7 +128,7 @@ export const DisplayWeather = () => {
           <p>{new Date().toLocaleDateString()}</p>
           <p>{weather.weather[0].description}</p>
           <h2 className="text-2xl">{weather.name}, {weather.sys.country}</h2>
-          <hr className="w-38 text-lime-400 border" />
+          <hr className="w-38 text-lime-400 border shadow-xl/30" />
         </div>
       )}
 
