@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "../../assets/logo.png";
 import { CiMenuBurger, CiCloudSun, CiSun, CiCloudMoon, CiDroplet } from "react-icons/ci";
 import { FaWind } from "react-icons/fa";
@@ -12,9 +12,50 @@ import {
 import { getWeatherByCity, getForecastByCity } from "../services/weatherSearvice";
 
 export const DisplayWeather = () => {
-  const [city, setCity] = useState("Polokwane");
-  const [weather, setWeather] = useState<any>(null);
-  const [forecast, setForecast] = useState<any[]>([]);
+  const [city, setCity] = useState("");
+  type WeatherType = {
+    main: {
+      temp: number;
+      humidity: number;
+    };
+    weather: {
+      main: string;
+      description: string;
+      icon: string;
+    }[];
+    name: string;
+    sys: {
+      country: string;
+      sunrise: number;
+      sunset: number;
+    };
+    wind: {
+      speed: number;
+    };
+    
+  };
+
+  const [weather, setWeather] = useState<WeatherType | null>(null);
+  type ForecastItem = {
+    dt: number;
+    main: {
+      temp: number;
+      temp_min: number;
+      temp_max: number;
+      humidity: number;
+    };
+    weather: {
+      main: string;
+      description: string;
+      icon: string;
+    }[];
+    wind: {
+      speed: number;
+    };
+    
+  };
+
+  const [forecast, setForecast] = useState<ForecastItem[]>([]);
 
   const formatTime = (timestamp: number) => {
     return new Date(timestamp * 1000).toLocaleTimeString([], {
@@ -30,7 +71,7 @@ export const DisplayWeather = () => {
 
       const forecastData = await getForecastByCity(city);
       setForecast(forecastData.list.slice(0, 7)); // take 7 entries for daily
-    } catch (error) {
+    } catch {
       alert("City not found!");
     }
   };
