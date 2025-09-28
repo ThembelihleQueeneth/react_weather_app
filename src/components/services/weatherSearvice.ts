@@ -34,13 +34,55 @@ export const getForecastByCity = async (city: string) => {
     throw error;
   }
 };
+
 export const getHourlyForecast = async (city: string) => {
-  const response = await axios.get(`${BASE_URL}/forecast`, {
-    params: {
-      q: city,
-      units: "metric",
-      appid: API_KEY,
-    },
-  });
-  return response.data;
+  try {
+    const response = await axios.get(`${BASE_URL}/forecast`, {
+      params: {
+        q: city,
+        units: "metric",
+        appid: API_KEY,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching hourly forecast:", error);
+    throw error;
+  }
+};
+
+// New function to get UV index by coordinates
+export const getUVIndex = async (lat: number, lon: number) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/uvi`, {
+      params: {
+        lat: lat,
+        lon: lon,
+        appid: API_KEY,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching UV index:", error);
+    throw error;
+  }
+};
+
+// Alternative: Use One Call API which includes UV index and more comprehensive data
+export const getOneCallWeather = async (lat: number, lon: number) => {
+  try {
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall`, {
+      params: {
+        lat: lat,
+        lon: lon,
+        exclude: "minutely",
+        units: "metric",
+        appid: API_KEY,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching one call weather:", error);
+    throw error;
+  }
 };

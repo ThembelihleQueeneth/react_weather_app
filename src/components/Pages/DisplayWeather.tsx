@@ -9,12 +9,14 @@ import {
   WiSnow,
   WiNightClear,
 } from "react-icons/wi";
-import { getWeatherByCity, getForecastByCity } from "../services/weatherSearvice";
+import { getWeatherByCity, getForecastByCity, getUVIndex } from "../services/weatherSearvice";
 
 export const DisplayWeather = () => {
   const [city, setCity] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [uvIndex, setUvIndex] = useState<number | null>(null);
+  const [uvDescription, setUvDescription] = useState("");
 
   type WeatherType = {
     main: {
@@ -34,6 +36,10 @@ export const DisplayWeather = () => {
     };
     wind: {
       speed: number;
+    };
+    coord: {
+      lat: number;
+      lon: number;
     };
   };
 
@@ -65,7 +71,6 @@ export const DisplayWeather = () => {
     if (savedDarkMode) {
       setDarkMode(JSON.parse(savedDarkMode));
     } else {
-      // First time visit - default to light mode
       setDarkMode(false);
     }
   }, []);
@@ -74,13 +79,28 @@ export const DisplayWeather = () => {
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
-      document.documentElement.style.backgroundColor = "#1F2937"; // Dark gray background
+      document.documentElement.style.backgroundColor = "#1F2937";
     } else {
       document.documentElement.classList.remove("dark");
-      document.documentElement.style.backgroundColor = "#F9F8FA"; // Light background
+      document.documentElement.style.backgroundColor = "#F9F8FA";
     }
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
+
+  // Get UV description and color based on UV index
+  const getUVInfo = (uv: number) => {
+    if (uv >= 0 && uv <= 2) {
+      return { description: "Low", color: "text-green-500", bgColor: "bg-green-100", darkBgColor: "bg-green-900" };
+    } else if (uv >= 3 && uv <= 5) {
+      return { description: "Moderate", color: "text-yellow-500", bgColor: "bg-yellow-100", darkBgColor: "bg-yellow-900" };
+    } else if (uv >= 6 && uv <= 7) {
+      return { description: "High", color: "text-orange-500", bgColor: "bg-orange-100", darkBgColor: "bg-orange-900" };
+    } else if (uv >= 8 && uv <= 10) {
+      return { description: "Very High", color: "text-red-500", bgColor: "bg-red-100", darkBgColor: "bg-red-900" };
+    } else {
+      return { description: "Extreme", color: "text-purple-500", bgColor: "bg-purple-100", darkBgColor: "bg-purple-900" };
+    }
+  };
 
   const formatTime = (timestamp: number) => {
     return new Date(timestamp * 1000).toLocaleTimeString([], {
@@ -95,7 +115,15 @@ export const DisplayWeather = () => {
       setWeather(data);
 
       const forecastData = await getForecastByCity(city);
-      setForecast(forecastData.list.slice(0, 7)); // take 7 entries for daily
+      setForecast(forecastData.list.slice(0, 7));
+
+      // Fetch UV index using coordinates from weather data
+      if (data.coord) {
+        const uvData = await getUVIndex(data.coord.lat, data.coord.lon);
+        setUvIndex(uvData.uvi);
+        const uvInfo = getUVInfo(uvData.uvi);
+        setUvDescription(uvInfo.description);
+      }
     } catch {
       alert("City not found!");
     }
@@ -300,11 +328,52 @@ export const DisplayWeather = () => {
             darkMode ? "text-lime-600" : "text-lime-500"
           }`}>|</span>
 
-          {/* UV Index (placeholder for now) */}
+          {/* UV Index */}
           <div className="mr-10">
             <CiSun className="text-amber-600 text-4xl ml-2 mt-5" />
             <h3>UV Index</h3>
-            <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>—</h4>
+            {uvIndex !== null ? (
+              <div className="flex flex-col items-center">
+                <div className={`px-2 py-1 rounded-full text-sm font-bold ${
+                  darkMode ? getUVInfo(uvIndex).darkBgColor : getUVInfo(uvIndex).bgColor
+                } ${getUVInfo(uvIndex).color}`}>
+                  {uvIndex} - {uvDescription}
+                </div>
+              </div>
+            ) : (
+              <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>Loading...</h4>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* UV Index Scale Guide */}
+      {uvIndex !== null && (
+        <div className={`ml-10 mt-6 p-4 rounded-2xl transition-colors duration-300 ${
+          darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
+        }`}>
+          <h3 className="text-lg font-semibold mb-3">UV Index Scale</h3>
+          <div className="grid grid-cols-5 gap-2 text-xs">
+            <div className="text-center p-2 bg-green-100 text-green-800 rounded">
+              <div className="font-bold">0-2</div>
+              <div>Low</div>
+            </div>
+            <div className="text-center p-2 bg-yellow-100 text-yellow-800 rounded">
+              <div className="font-bold">3-5</div>
+              <div>Moderate</div>
+            </div>
+            <div className="text-center p-2 bg-orange-100 text-orange-800 rounded">
+              <div className="font-bold">6-7</div>
+              <div>High</div>
+            </div>
+            <div className="text-center p-2 bg-red-100 text-red-800 rounded">
+              <div className="font-bold">8-10</div>
+              <div>Very High</div>
+            </div>
+            <div className="text-center p-2 bg-purple-100 text-purple-800 rounded">
+              <div className="font-bold">11+</div>
+              <div>Extreme</div>
+            </div>
           </div>
         </div>
       )}
