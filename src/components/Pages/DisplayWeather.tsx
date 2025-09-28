@@ -346,77 +346,86 @@ export const DisplayWeather = () => {
   </div>
 )}
 
-      {/* sunset and sunrise */}
-      {weather && (
-        <div className={`flex justify-between ml-10 w-450  rounded-3xl border-4 h-30 mt-10 transition-colors duration-300 ${
-          darkMode 
-            ? "border-lime-600 bg-gray-800 text-white" 
-            : "border-lime-500 bg-white text-black"
-        }`}>
-          <div className="ml-90">
-            <CiSun className="text-amber-600 text-4xl ml-2 mt-5" />
-            <h3>Sunrise</h3>
-            <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>{formatTime(weather.sys.sunrise)}</h4>
-          </div>
-          <span className={`text-4xl mb-15 mt-5 ${
-            darkMode ? "text-lime-600" : "text-lime-500"
-          }`}>|</span>
-          <div className="mr-90">
-            <CiCloudMoon className="text-lime-800 text-4xl ml-2 mt-5" />
-            <h3>Sunset</h3>
-            <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>{formatTime(weather.sys.sunset)}</h4>
+{/* sunset and sunrise */}
+{weather && (
+  <div className={`flex flex-col sm:flex-row justify-between items-center mx-4 sm:mx-6 md:mx-10 w-auto sm:w-400 md:w-450 rounded-2xl sm:rounded-3xl border-4 p-4 sm:p-6 md:p-0 h-auto sm:h-25 md:h-30 mt-8 sm:mt-10 transition-colors duration-300 ${
+    darkMode 
+      ? "border-lime-600 bg-gray-800 text-white" 
+      : "border-lime-500 bg-white text-black"
+  }`}>
+    <div className="text-center sm:text-left mb-4 sm:mb-0 sm:ml-20 md:ml-90">
+      <CiSun className="text-amber-600 text-2xl sm:text-3xl md:text-4xl mx-auto sm:mx-0 sm:ml-2 mt-0 sm:mt-3 md:mt-5" />
+      <h3 className="text-base sm:text-lg md:text-xl">Sunrise</h3>
+      <h4 className={`text-sm sm:text-base md:text-lg ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+        {formatTime(weather.sys.sunrise)}
+      </h4>
+    </div>
+    <span className={`hidden sm:block text-3xl md:text-4xl mb-10 sm:mb-15 mt-3 md:mt-5 ${
+      darkMode ? "text-lime-600" : "text-lime-500"
+    }`}>|</span>
+    <div className="text-center sm:text-left sm:mr-20 md:mr-90">
+      <CiCloudMoon className="text-lime-800 text-2xl sm:text-3xl md:text-4xl mx-auto sm:mx-0 sm:ml-2 mt-0 sm:mt-3 md:mt-5" />
+      <h3 className="text-base sm:text-lg md:text-xl">Sunset</h3>
+      <h4 className={`text-sm sm:text-base md:text-lg ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+        {formatTime(weather.sys.sunset)}
+      </h4>
+    </div>
+  </div>
+)}
+
+{/* speed, humidity and UV */}
+{weather && (
+  <div className={`flex flex-col sm:flex-row justify-between items-center mx-4 sm:mx-6 md:mx-10 w-auto sm:w-400 md:w-450 rounded-2xl sm:rounded-3xl border-4 p-4 sm:p-6 md:p-0 h-auto sm:h-25 md:h-30 mt-8 sm:mt-10 transition-colors duration-300 ${
+    darkMode 
+      ? "border-lime-600 bg-gray-800 text-white" 
+      : "border-lime-500 bg-white text-black"
+  }`}>
+    {/* Humidity */}
+    <div className="text-center sm:text-left mb-4 sm:mb-0 sm:ml-8 md:ml-10">
+      <CiDroplet className="text-amber-600 text-2xl sm:text-3xl md:text-4xl mx-auto sm:mx-0 sm:ml-2 mt-0 sm:mt-3 md:mt-5" />
+      <h3 className="text-base sm:text-lg md:text-xl">Humidity</h3>
+      <h4 className={`text-sm sm:text-base md:text-lg ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+        {weather.main.humidity}%
+      </h4>
+    </div>
+
+    <span className={`hidden sm:block text-3xl md:text-4xl mb-10 sm:mb-15 mt-3 md:mt-5 ${
+      darkMode ? "text-lime-600" : "text-lime-500"
+    }`}>|</span>
+
+    {/* Wind */}
+    <div className="text-center sm:text-left mb-4 sm:mb-0">
+      <FaWind className="text-lime-800 text-2xl sm:text-3xl md:text-4xl mx-auto sm:mx-0 sm:ml-2 mt-0 sm:mt-3 md:mt-5" />
+      <h3 className="text-base sm:text-lg md:text-xl">Wind</h3>
+      <h4 className={`text-sm sm:text-base md:text-lg ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+        {Math.round(weather.wind.speed * 3.6)} km/h
+      </h4>
+    </div>
+
+    <span className={`hidden sm:block text-3xl md:text-4xl mb-10 sm:mb-15 mt-3 md:mt-5 ${
+      darkMode ? "text-lime-600" : "text-lime-500"
+    }`}>|</span>
+
+    {/* UV Index */}
+    <div className="text-center sm:text-left sm:mr-8 md:mr-10">
+      <CiSun className="text-amber-600 text-2xl sm:text-3xl md:text-4xl mx-auto sm:mx-0 sm:ml-2 mt-0 sm:mt-3 md:mt-5" />
+      <h3 className="text-base sm:text-lg md:text-xl">UV Index</h3>
+      {uvIndex !== null ? (
+        <div className="flex flex-col items-center sm:items-start">
+          <div className={`px-2 py-1 rounded-full text-xs sm:text-sm md:text-sm font-bold ${
+            darkMode ? getUVInfo(uvIndex).darkBgColor : getUVInfo(uvIndex).bgColor
+          } ${getUVInfo(uvIndex).color}`}>
+            {uvIndex} - {uvDescription}
           </div>
         </div>
+      ) : (
+        <h4 className={`text-sm sm:text-base md:text-lg ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+          Loading...
+        </h4>
       )}
-
-      {/* speed, humidity and UV */}
-      {weather && (
-        <div className={`flex justify-between ml-10 w-450 rounded-3xl border-4 h-30 mt-10 transition-colors duration-300 ${
-          darkMode 
-            ? "border-lime-600 bg-gray-800 text-white" 
-            : "border-lime-500 bg-white text-black"
-        }`}>
-          {/* Humidity */}
-          <div className="ml-10">
-            <CiDroplet className="text-amber-600 text-4xl ml-2 mt-5" />
-            <h3>Humidity</h3>
-            <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>{weather.main.humidity}%</h4>
-          </div>
-
-          <span className={`text-4xl mb-15 mt-5 ${
-            darkMode ? "text-lime-600" : "text-lime-500"
-          }`}>|</span>
-
-          {/* Wind */}
-          <div>
-            <FaWind className="text-lime-800 text-4xl ml-2 mt-5" />
-            <h3>Wind</h3>
-            <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>{Math.round(weather.wind.speed * 3.6)} km/h</h4>
-          </div>
-
-          <span className={`text-4xl mb-15 mt-5 ${
-            darkMode ? "text-lime-600" : "text-lime-500"
-          }`}>|</span>
-
-          {/* UV Index */}
-          <div className="mr-10">
-            <CiSun className="text-amber-600 text-4xl ml-2 mt-5" />
-            <h3>UV Index</h3>
-            {uvIndex !== null ? (
-              <div className="flex flex-col items-center">
-                <div className={`px-2 py-1 rounded-full text-sm font-bold ${
-                  darkMode ? getUVInfo(uvIndex).darkBgColor : getUVInfo(uvIndex).bgColor
-                } ${getUVInfo(uvIndex).color}`}>
-                  {uvIndex} - {uvDescription}
-                </div>
-              </div>
-            ) : (
-              <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>Loading...</h4>
-            )}
-          </div>
-        </div>
-      )}
-
+    </div>
+  </div>
+)}
      
       <hr className={`mt-10 border ml-2 mr-2 transition-colors duration-300 ${
         darkMode ? "border-lime-600" : "border-lime-500"
