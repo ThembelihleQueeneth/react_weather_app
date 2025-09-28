@@ -9,6 +9,7 @@ import {
   WiSnow,
   WiNightClear,
 } from "react-icons/wi";
+{/* Current Temperature Unit Indicator */}
 import { getWeatherByCity, getForecastByCity, getUVIndex, getSevenDayForecast } from "../services/weatherSearvice";
 
 export const DisplayWeather = () => {
@@ -267,28 +268,28 @@ export const DisplayWeather = () => {
 
       {/* Current Temperature Unit Indicator */}
       <div className={`text-center mb-4 transition-colors duration-300 ${
-        darkMode ? "text-gray-300" : "text-gray-600"
-      }`}>
-        <span className="text-sm">
-          Currently showing temperatures in {isCelsius ? "Celsius (°C)" : "Fahrenheit (°F)"}
-        </span>
-      </div>
+  darkMode ? "text-gray-300" : "text-gray-600"
+}`}>
+  <span className="text-sm">
+    Currently showing temperatures in {isCelsius ? "Celsius (°C)" : "Fahrenheit (°F)"}
+  </span>
+</div>
 
-      {/* Weather Display */}
-      {weather && (
-        <div className={`ml-100 transition-colors duration-300 ${
-          darkMode ? "text-white" : "text-black"
-        }`}>
-          <CiCloudSun className="text-7xl" />
-          <h1 className="text-lime-400 text-3xl">{formatTemperature(weather.main.temp)}</h1>
-          <p>{new Date().toLocaleDateString()}</p>
-          <p>{weather.weather[0].description}</p>
-          <h2 className="text-2xl">{weather.name}, {weather.sys.country}</h2>
-          <hr className={`w-38 border shadow-xl/30 ${
-            darkMode ? "border-lime-600" : "border-lime-400"
-          }`} />
-        </div>
-      )}
+{/* Weather Display */}
+{weather && (
+  <div className={`text-center sm:text-center md:text-center lg:text-center xl:text-center transition-colors duration-300 ${
+    darkMode ? "text-white" : "text-black"
+  }`}>
+    <CiCloudSun className="text-7xl mx-auto" />
+    <h1 className="text-lime-400 text-3xl">{formatTemperature(weather.main.temp)}</h1>
+    <p>{new Date().toLocaleDateString()}</p>
+    <p>{weather.weather[0].description}</p>
+    <h2 className="text-2xl">{weather.name}, {weather.sys.country}</h2>
+    <hr className={`w-38 border shadow-xl/30 mx-auto ${
+      darkMode ? "border-lime-600" : "border-lime-400"
+    }`} />
+  </div>
+)}
 
      {/* 24-Hour Forecast Section */}
 {/* 24-Hour Forecast Section */}
