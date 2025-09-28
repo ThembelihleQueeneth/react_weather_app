@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import logo from "../../assets/logo.png";
 import { CiMenuBurger, CiCloudSun, CiSun, CiCloudMoon, CiDroplet } from "react-icons/ci";
-import { FaWind, FaMoon, FaToggleOff, FaSearch } from "react-icons/fa";
+import { FaWind, FaMoon, FaToggleOff, FaToggleOn, FaSearch } from "react-icons/fa";
 import {
   WiDaySunny,
   WiCloudy,
@@ -17,6 +17,7 @@ export const DisplayWeather = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [uvIndex, setUvIndex] = useState<number | null>(null);
   const [uvDescription, setUvDescription] = useState("");
+  const [isCelsius, setIsCelsius] = useState(true);
 
   type WeatherType = {
     main: {
@@ -65,13 +66,21 @@ export const DisplayWeather = () => {
 
   const [forecast, setForecast] = useState<ForecastItem[]>([]);
 
-  // Initialize dark mode from localStorage or set to false for first time
+  // Initialize preferences from localStorage
   useEffect(() => {
     const savedDarkMode = localStorage.getItem("darkMode");
+    const savedTemperatureUnit = localStorage.getItem("temperatureUnit");
+    
     if (savedDarkMode) {
       setDarkMode(JSON.parse(savedDarkMode));
     } else {
       setDarkMode(false);
+    }
+
+    if (savedTemperatureUnit) {
+      setIsCelsius(savedTemperatureUnit === "celsius");
+    } else {
+      setIsCelsius(true);
     }
   }, []);
 
@@ -86,6 +95,34 @@ export const DisplayWeather = () => {
     }
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
+
+  // Save temperature unit preference
+  useEffect(() => {
+    localStorage.setItem("temperatureUnit", isCelsius ? "celsius" : "fahrenheit");
+  }, [isCelsius]);
+
+  // Temperature conversion functions
+  const celsiusToFahrenheit = (celsius: number): number => {
+    return (celsius * 9/5) + 32;
+  };
+
+  const formatTemperature = (celsius: number): string => {
+    if (isCelsius) {
+      return `${Math.round(celsius)}°C`;
+    } else {
+      return `${Math.round(celsiusToFahrenheit(celsius))}°F`;
+    }
+  };
+
+  const formatTemperatureRange = (minCelsius: number, maxCelsius: number): string => {
+    if (isCelsius) {
+      return `High: ${Math.round(maxCelsius)}°C | Low: ${Math.round(minCelsius)}°C`;
+    } else {
+      const minFahrenheit = celsiusToFahrenheit(minCelsius);
+      const maxFahrenheit = celsiusToFahrenheit(maxCelsius);
+      return `High: ${Math.round(maxFahrenheit)}°F | Low: ${Math.round(minFahrenheit)}°F`;
+    }
+  };
 
   // Get UV description and color based on UV index
   const getUVInfo = (uv: number) => {
@@ -138,14 +175,16 @@ export const DisplayWeather = () => {
     setIsMenuOpen(false);
   };
 
+  const toggleTemperatureUnit = () => {
+    setIsCelsius(!isCelsius);
+    setIsMenuOpen(false);
+  };
+
   const menuItems = [
     { 
-      icon: FaToggleOff, 
-      label: '°C / °F', 
-      onClick: () => {
-        alert('°C / °F clicked');
-        setIsMenuOpen(false);
-      } 
+      icon: isCelsius ? FaToggleOff : FaToggleOn, 
+      label: isCelsius ? 'Switch to °F' : 'Switch to °C', 
+      onClick: toggleTemperatureUnit 
     },
     { 
       icon: FaMoon, 
@@ -226,13 +265,22 @@ export const DisplayWeather = () => {
         </div>
       </nav>
 
+      {/* Current Temperature Unit Indicator */}
+      <div className={`text-center mb-4 transition-colors duration-300 ${
+        darkMode ? "text-gray-300" : "text-gray-600"
+      }`}>
+        <span className="text-sm">
+          Currently showing temperatures in {isCelsius ? "Celsius (°C)" : "Fahrenheit (°F)"}
+        </span>
+      </div>
+
       {/* Weather Display */}
       {weather && (
         <div className={`ml-100 transition-colors duration-300 ${
           darkMode ? "text-white" : "text-black"
         }`}>
           <CiCloudSun className="text-7xl" />
-          <h1 className="text-lime-400 text-3xl">{weather.main.temp}°C</h1>
+          <h1 className="text-lime-400 text-3xl">{formatTemperature(weather.main.temp)}</h1>
           <p>{new Date().toLocaleDateString()}</p>
           <p>{weather.weather[0].description}</p>
           <h2 className="text-2xl">{weather.name}, {weather.sys.country}</h2>
@@ -253,7 +301,7 @@ export const DisplayWeather = () => {
           <div className="flex mt-5 ml-12 gap-8 overflow-x-auto">
             {forecast.map((hour, index) => {
               const time = new Date(hour.dt * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-              const temp = Math.round(hour.main.temp);
+              const temp = hour.main.temp;
               const condition = hour.weather[0].main;
               const isNight = time.includes("PM") && condition === "Clear";
 
@@ -268,7 +316,7 @@ export const DisplayWeather = () => {
                 >
                   <h2 className="text-xl mb-2">{time}</h2>
                   {getWeatherIcon(condition, isNight)}
-                  <span className="mt-2">{temp}°C</span>
+                  <span className="mt-2">{formatTemperature(temp)}</span>
                 </div>
               );
             })}
@@ -407,7 +455,7 @@ export const DisplayWeather = () => {
             <span className={`m-5 transition-colors duration-300 ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}>
-              High: {f.main.temp_max}°C | Low: {f.main.temp_min}°C
+              {formatTemperatureRange(f.main.temp_min, f.main.temp_max)}
             </span>
           </div>
         ))}
