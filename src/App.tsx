@@ -7,8 +7,11 @@ import { DisplayWeather } from './components/Pages/DisplayWeather'
 
 function App() {
   return(
-  <>
-  <DisplayWeather />
+  < >
+
+    <DisplayWeather />
+  
+  
   
   
   
