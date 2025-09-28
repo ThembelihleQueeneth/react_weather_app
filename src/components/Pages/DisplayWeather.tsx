@@ -290,39 +290,60 @@ export const DisplayWeather = () => {
         </div>
       )}
 
-      {/* Hourly Forecast Section */}
-      {forecast.length > 0 && (
-        <div>
-          <h1 className={`mt-10 ml-10 transition-colors duration-300 ${
-            darkMode ? "text-white" : "text-black"
-          }`}>
-            Hourly Temperature
-          </h1>
-          <div className="flex mt-5 ml-12 gap-8 overflow-x-auto">
-            {forecast.map((hour, index) => {
-              const time = new Date(hour.dt * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-              const temp = hour.main.temp;
-              const condition = hour.weather[0].main;
-              const isNight = time.includes("PM") && condition === "Clear";
+     {/* 24-Hour Forecast Section */}
+{/* 24-Hour Forecast Section */}
+{forecast.length > 0 && (
+  <div>
+    <h1
+      className={`mt-10 ml-10 transition-colors duration-300 ${
+        darkMode ? "text-white" : "text-black"
+      }`}
+    >
+      24-Hour Forecast
+    </h1>
+    <div className="flex mt-5 ml-12 gap-6 overflow-x-auto pb-4">
+      {forecast
+        .filter((_, index) => index % 1 === 0) // keep all forecast points
+        .slice(0, 8) // ✅ only first 8 points (8 × 3h = 24h)
+        .map((hour, index) => {
+          const date = new Date(hour.dt * 1000);
+          const time = date.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          });
+          const day = date.toLocaleDateString("en-US", { weekday: "short" });
+          const temp = hour.main.temp;
+          const condition = hour.weather[0].main;
+          const hourOfDay = date.getHours();
+          const isNight = hourOfDay >= 18 || hourOfDay <= 6;
 
-              return (
-                <div
-                  key={index}
-                  className={`w-30 h-40 p-6 rounded-3xl border-4 flex flex-col items-center justify-center transition-colors duration-300 ${
-                    darkMode 
-                      ? "border-lime-600 bg-gray-800 text-white" 
-                      : "border-lime-500 bg-white text-black"
-                  }`}
-                >
-                  <h2 className="text-xl mb-2">{time}</h2>
-                  {getWeatherIcon(condition, isNight)}
-                  <span className="mt-2">{formatTemperature(temp)}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+          return (
+            <div
+              key={index}
+              className={`min-w-30 h-55 p-4 rounded-3xl border-4 flex flex-col items-center justify-center transition-colors duration-300 ${
+                darkMode
+                  ? "border-lime-600 bg-gray-800 text-white"
+                  : "border-lime-500 bg-white text-black"
+              }`}
+            >
+              <h3 className="text-sm text-gray-500 mb-1">{day}</h3>
+              <h2 className="text-lg mb-2 ml-5 font-medium">{time}</h2>
+              <div className="mb-2">
+                {getWeatherIcon(condition, isNight)}
+              </div>
+              <span className="text-lg font-semibold">
+                {formatTemperature(temp)}
+              </span>
+              <span className="text-xs mt-1 text-center text-gray-500 px-2">
+                {hour.weather[0].description}
+              </span>
+            </div>
+          );
+        })}
+    </div>
+  </div>
+)}
 
       {/* sunset and sunrise */}
       {weather && (
@@ -395,37 +416,7 @@ export const DisplayWeather = () => {
         </div>
       )}
 
-      {/* UV Index Scale Guide */}
-      {uvIndex !== null && (
-        <div className={`ml-10 mt-6 p-4 rounded-2xl transition-colors duration-300 ${
-          darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
-        }`}>
-          <h3 className="text-lg font-semibold mb-3">UV Index Scale</h3>
-          <div className="grid grid-cols-5 gap-2 text-xs">
-            <div className="text-center p-2 bg-green-100 text-green-800 rounded">
-              <div className="font-bold">0-2</div>
-              <div>Low</div>
-            </div>
-            <div className="text-center p-2 bg-yellow-100 text-yellow-800 rounded">
-              <div className="font-bold">3-5</div>
-              <div>Moderate</div>
-            </div>
-            <div className="text-center p-2 bg-orange-100 text-orange-800 rounded">
-              <div className="font-bold">6-7</div>
-              <div>High</div>
-            </div>
-            <div className="text-center p-2 bg-red-100 text-red-800 rounded">
-              <div className="font-bold">8-10</div>
-              <div>Very High</div>
-            </div>
-            <div className="text-center p-2 bg-purple-100 text-purple-800 rounded">
-              <div className="font-bold">11+</div>
-              <div>Extreme</div>
-            </div>
-          </div>
-        </div>
-      )}
-
+     
       <hr className={`mt-10 border ml-2 mr-2 transition-colors duration-300 ${
         darkMode ? "border-lime-600" : "border-lime-500"
       }`} />
