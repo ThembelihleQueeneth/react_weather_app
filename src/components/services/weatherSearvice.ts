@@ -19,6 +19,36 @@ export const getWeatherByCity = async (city: string) => {
   }
 };
 
+export const getSevenDayForecast = async (city: string) => {
+  try {
+    // Step 1: Get coordinates of the city
+    const locationResponse = await axios.get(`${BASE_URL}/weather`, {
+      params: {
+        q: city,
+        appid: API_KEY,
+      },
+    });
+
+    const { lat, lon } = locationResponse.data.coord;
+
+    // Step 2: Use One Call API with lat & lon
+    const forecastResponse = await axios.get(`${BASE_URL}/onecall`, {
+      params: {
+        lat,
+        lon,
+        exclude: "current,minutely,hourly,alerts",
+        units: "metric",
+        appid: API_KEY,
+      },
+    });
+
+    return forecastResponse.data.daily; // daily contains 7–8 days forecast
+  } catch (error) {
+    console.error("Error fetching 7-day forecast:", error);
+    throw error;
+  }
+};
+
 export const getForecastByCity = async (city: string) => {
   try {
     const response = await axios.get(`${BASE_URL}/forecast`, {

@@ -9,7 +9,7 @@ import {
   WiSnow,
   WiNightClear,
 } from "react-icons/wi";
-import { getWeatherByCity, getForecastByCity, getUVIndex } from "../services/weatherSearvice";
+import { getWeatherByCity, getForecastByCity, getUVIndex, getSevenDayForecast } from "../services/weatherSearvice";
 
 export const DisplayWeather = () => {
   const [city, setCity] = useState("");
@@ -321,14 +321,14 @@ export const DisplayWeather = () => {
           return (
             <div
               key={index}
-              className={`min-w-30 h-55 p-4 rounded-3xl border-4 flex flex-col items-center justify-center transition-colors duration-300 ${
+              className={`min-w-28 h-55 p-4 rounded-3xl border-4 flex flex-col items-center justify-center transition-colors duration-300 ${
                 darkMode
                   ? "border-lime-600 bg-gray-800 text-white"
                   : "border-lime-500 bg-white text-black"
               }`}
             >
               <h3 className="text-sm text-gray-500 mb-1">{day}</h3>
-              <h2 className="text-lg mb-2 ml-5 font-medium">{time}</h2>
+              <h2 className="text-lg mb-2 ml-3 font-medium">{time}</h2>
               <div className="mb-2">
                 {getWeatherIcon(condition, isNight)}
               </div>
@@ -433,23 +433,44 @@ export const DisplayWeather = () => {
       }`} />
 
       {forecast.length > 0 &&
-        forecast.map((f, index) => (
-          <div key={index} className={`flex justify-between transition-colors duration-300 ${
-            darkMode ? "text-white" : "text-black"
-          }`}>
-            <span className={`w-30 m-5 p-2 rounded-2xl ${
-              darkMode ? "text-white" : "text-black"
-            }`}>
-              {new Date(f.dt * 1000).toLocaleDateString("en-US", { weekday: "short" })}
-            </span>
-            <CiSun className="text-amber-600 text-4xl ml-2 m-5" />
-            <span className={`m-5 transition-colors duration-300 ${
-              darkMode ? "text-gray-300" : "text-gray-700"
-            }`}>
-              {formatTemperatureRange(f.main.temp_min, f.main.temp_max)}
-            </span>
-          </div>
-        ))}
+  forecast.map((f, index) => (
+    <div
+      key={index}
+      className={`flex justify-between transition-colors duration-300 ${
+        darkMode ? "text-white" : "text-black"
+      }`}
+    >
+      {/* Day of week */}
+      <span
+        className={`w-30 m-5 p-2 rounded-2xl ${
+          darkMode ? "text-white" : "text-black"
+        }`}
+      >
+        {new Date(f.dt * 1000).toLocaleDateString("en-US", {
+          weekday: "short",
+        })}
+      </span>
+
+      {/* Weather icon */}
+      <img
+        src={`https://openweathermap.org/img/wn/${f.weather[0].icon}@2x.png`}
+        alt={f.weather[0].description}
+        className="w-12 h-12 m-5"
+      />
+
+      {/* Min / Max Temp */}
+      <span
+        className={`m-5 transition-colors duration-300 ${
+          darkMode ? "text-gray-300" : "text-gray-700"
+        }`}
+      >
+       {formatTemperatureRange(f.main.temp_min, f.main.temp_max)}
+      </span>
+    </div>
+  ))}
+  
+
     </div>
   );
 };
+
