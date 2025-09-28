@@ -292,7 +292,7 @@ export const DisplayWeather = () => {
 )}
 
      {/* 24-Hour Forecast Section */}
-{/* 24-Hour Forecast Section */}
+
 {forecast.length > 0 && (
   <div>
     <h1
@@ -302,10 +302,10 @@ export const DisplayWeather = () => {
     >
       24-Hour Forecast
     </h1>
-    <div className="flex mt-5 ml-12 gap-6 overflow-x-auto pb-4">
+    <div className="flex mt-5 ml-12 gap-5 mr-20 overflow-x-auto pb-4">
       {forecast
-        .filter((_, index) => index % 1 === 0) // keep all forecast points
-        .slice(0, 8) // ✅ only first 8 points (8 × 3h = 24h)
+        .filter((_, index) => index % 1 === 0) 
+        .slice(0, 8) // 
         .map((hour, index) => {
           const date = new Date(hour.dt * 1000);
           const time = date.toLocaleTimeString([], {
@@ -322,7 +322,7 @@ export const DisplayWeather = () => {
           return (
             <div
               key={index}
-              className={`min-w-28 h-55 p-4 rounded-3xl border-4 flex flex-col items-center justify-center transition-colors duration-300 ${
+              className={`w-100 h-55 p-4 rounded-3xl border-4 flex flex-col items-center justify-center transition-colors duration-300 ${
                 darkMode
                   ? "border-lime-600 bg-gray-800 text-white"
                   : "border-lime-500 bg-white text-black"
@@ -348,12 +348,12 @@ export const DisplayWeather = () => {
 
       {/* sunset and sunrise */}
       {weather && (
-        <div className={`flex justify-between ml-10 w-220 rounded-3xl border-4 h-30 mt-10 transition-colors duration-300 ${
+        <div className={`flex justify-between ml-10 w-450  rounded-3xl border-4 h-30 mt-10 transition-colors duration-300 ${
           darkMode 
             ? "border-lime-600 bg-gray-800 text-white" 
             : "border-lime-500 bg-white text-black"
         }`}>
-          <div className="ml-40">
+          <div className="ml-90">
             <CiSun className="text-amber-600 text-4xl ml-2 mt-5" />
             <h3>Sunrise</h3>
             <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>{formatTime(weather.sys.sunrise)}</h4>
@@ -361,7 +361,7 @@ export const DisplayWeather = () => {
           <span className={`text-4xl mb-15 mt-5 ${
             darkMode ? "text-lime-600" : "text-lime-500"
           }`}>|</span>
-          <div className="mr-40">
+          <div className="mr-90">
             <CiCloudMoon className="text-lime-800 text-4xl ml-2 mt-5" />
             <h3>Sunset</h3>
             <h4 className={darkMode ? "text-gray-300" : "text-gray-700"}>{formatTime(weather.sys.sunset)}</h4>
@@ -371,7 +371,7 @@ export const DisplayWeather = () => {
 
       {/* speed, humidity and UV */}
       {weather && (
-        <div className={`flex justify-between ml-10 w-220 rounded-3xl border-4 h-30 mt-10 transition-colors duration-300 ${
+        <div className={`flex justify-between ml-10 w-450 rounded-3xl border-4 h-30 mt-10 transition-colors duration-300 ${
           darkMode 
             ? "border-lime-600 bg-gray-800 text-white" 
             : "border-lime-500 bg-white text-black"
