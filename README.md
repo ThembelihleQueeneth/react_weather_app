@@ -1,69 +1,140 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Weather App ☀️🌙
+<img width="1920" height="1080" alt="Screenshot (14)" src="https://github.com/user-attachments/assets/66607ecc-a7a6-497f-a4b6-04231b04c2ba" />
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A modern, responsive weather application built with React and TypeScript that provides real-time weather information and forecasts.
 
-## Expanding the ESLint configuration
+## Features 🌟
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Current Weather Data**: Real-time temperature, humidity, wind speed, and conditions
+- **24-Hour Forecast**: Detailed hourly weather predictions
+- **7-Day Forecast**: Weekly weather outlook with min/max temperatures
+- **UV Index**: Current UV levels with safety recommendations
+- **Sunrise & Sunset Times**: Daily sun cycle information
+- **Dark/Light Mode**: Toggle between dark and light themes
+- **Temperature Units**: Switch between Celsius and Fahrenheit
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Local Storage**: Remembers your theme and unit preferences
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Technologies Used 🛠️
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Frontend**: React 18, TypeScript, Tailwind CSS
+- **Icons**: React Icons (Ci, Fa, Wi libraries)
+- **API**: OpenWeatherMap API
+- **State Management**: React Hooks (useState, useEffect)
+- **Storage**: Local Storage for user preferences
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation & Setup 🚀
+
+### Prerequisites
+- Node.js (version 14 or higher)
+- npm or yarn package manager
+- OpenWeatherMap API key
+
+### Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone [(https://github.com/ThembelihleQueeneth/react_weather_app.git)]
+   cd weather-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Run the application**
+   ```bash
+   npm run dev
+   ```
+
+6. **Open your browser**
+   Navigate to `http://localhost:5173/`
+
+## Usage 📱
+
+### Searching for Weather
+1. Type a city name in the search bar
+2. Press Enter or click the search icon
+3. View current weather and forecasts
+
+### Theme & Settings
+- Click the menu icon (☰) in the top-right corner
+- Toggle between Dark/Light mode
+- Switch temperature units (°C/°F)
+
+### Weather Information Displayed
+- **Current**: Temperature, conditions, location, date
+- **24-Hour Forecast**: Temperature trends throughout the day
+- **7-Day Forecast**: Weekly temperature ranges and conditions
+- **Details**: Humidity, wind speed, UV index, sunrise/sunset times
+
+## Project Structure 📁
+
+```
+src/
+├── components/
+│   └──Pages
+        └──DisplayWeather.tsx    # Main weather component
+├── services/
+│   └── weatherService.ts     # API service functions
+├── assets/
+│   └── logo.png             # Application logo
+└── ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## API Services 🌐
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The app uses OpenWeatherMap API endpoints:
+- Current weather data
+- 5-day forecast (3-hour intervals)
+- UV index data
+- Geocoding for city coordinates
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Customization 🎨
+
+### Styling
+- Built with Tailwind CSS for responsive design
+- Custom color scheme with lime accent colors
+- Dark mode support with smooth transitions
+
+### Adding Features
+The component is structured to easily add:
+- New weather metrics
+- Additional forecast periods
+- Different map integrations
+- Weather alerts and notifications
+
+## Browser Support 🌍
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Performance ⚡
+
+- Optimized API calls with error handling
+- Responsive images and icons
+- Efficient state management
+- Local storage caching for preferences
+
+## Contributing 🤝
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Acknowledgments 🙏
+
+- Weather data provided by [OpenWeatherMap](https://openweathermap.org/)
+- Icons from [React Icons](https://react-icons.github.io/react-icons/)
+- Built with [Create React App](https://create-react-app.dev/)
+##Author
+Thembelihle Maluka
