@@ -136,5 +136,6 @@ The component is structured to easily add:
 - Weather data provided by [OpenWeatherMap](https://openweathermap.org/)
 - Icons from [React Icons](https://react-icons.github.io/react-icons/)
 - Built with [Create React App](https://create-react-app.dev/)
-##Author
-Thembelihle Maluka
+
+## Author 🙏
+- Thembelihle Maluka | FullStack Developer
