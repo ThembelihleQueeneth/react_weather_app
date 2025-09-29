@@ -251,7 +251,7 @@ export const DisplayWeather = () => {
                 <button
                   key={index}
                   onClick={item.onClick}
-                  className={`flex items-center w-full text-left px-4 py-2 text-sm transition-colors duration-300 ${
+                  className={`cursor-pointer flex items-center w-full text-left px-4 py-2 text-sm transition-colors duration-300 ${
                     darkMode 
                       ? "text-gray-200 hover:bg-gray-700" 
                       : "text-gray-700 hover:bg-gray-100"
