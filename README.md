@@ -1,6 +1,12 @@
 
 # Weather App ☀️🌙
+
+## Lightmode
 <img width="1920" height="1080" alt="Screenshot (14)" src="https://github.com/user-attachments/assets/66607ecc-a7a6-497f-a4b6-04231b04c2ba" />
+
+## Darkmode
+<img width="1920" height="1080" alt="Screenshot (16)" src="https://github.com/user-attachments/assets/c3f4438f-9d42-4087-89d9-f04749c2f984" />
+
 
 
 A modern, responsive weather application built with React and TypeScript that provides real-time weather information and forecasts.
