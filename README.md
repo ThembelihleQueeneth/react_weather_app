@@ -1,5 +1,5 @@
 
-# Weather App ☀️🌙
+# Weather App 
 
 ## Lightmode
 <img width="1920" height="1080" alt="Screenshot (14)" src="https://github.com/user-attachments/assets/66607ecc-a7a6-497f-a4b6-04231b04c2ba" />
@@ -11,7 +11,7 @@
 
 A modern, responsive weather application built with React and TypeScript that provides real-time weather information and forecasts.
 
-## Features 🌟
+## Features 
 
 - **Current Weather Data**: Real-time temperature, humidity, wind speed, and conditions
 - **24-Hour Forecast**: Detailed hourly weather predictions
@@ -23,7 +23,7 @@ A modern, responsive weather application built with React and TypeScript that pr
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 - **Local Storage**: Remembers your theme and unit preferences
 
-## Technologies Used 🛠️
+## Technologies Used 
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS
 - **Icons**: React Icons (Ci, Fa, Wi libraries)
@@ -31,7 +31,7 @@ A modern, responsive weather application built with React and TypeScript that pr
 - **State Management**: React Hooks (useState, useEffect)
 - **Storage**: Local Storage for user preferences
 
-## Installation & Setup 🚀
+## Installation & Setup 
 
 ### Prerequisites
 - Node.js (version 14 or higher)
@@ -61,7 +61,7 @@ A modern, responsive weather application built with React and TypeScript that pr
 6. **Open your browser**
    Navigate to `http://localhost:5173/`
 
-## Usage 📱
+## Usage 
 
 ### Searching for Weather
 1. Type a city name in the search bar
@@ -79,7 +79,7 @@ A modern, responsive weather application built with React and TypeScript that pr
 - **7-Day Forecast**: Weekly temperature ranges and conditions
 - **Details**: Humidity, wind speed, UV index, sunrise/sunset times
 
-## Project Structure 📁
+## Project Structure 
 
 ```
 src/
@@ -93,7 +93,7 @@ src/
 └── ...
 ```
 
-## API Services 🌐
+## API Services 
 
 The app uses OpenWeatherMap API endpoints:
 - Current weather data
@@ -101,7 +101,7 @@ The app uses OpenWeatherMap API endpoints:
 - UV index data
 - Geocoding for city coordinates
 
-## Customization 🎨
+## Customization 
 
 ### Styling
 - Built with Tailwind CSS for responsive design
@@ -115,21 +115,21 @@ The component is structured to easily add:
 - Different map integrations
 - Weather alerts and notifications
 
-## Browser Support 🌍
+## Browser Support 
 
 - Chrome (latest)
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
 
-## Performance ⚡
+## Performance 
 
 - Optimized API calls with error handling
 - Responsive images and icons
 - Efficient state management
 - Local storage caching for preferences
 
-## Contributing 🤝
+## Contributing 
 
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -137,11 +137,11 @@ The component is structured to easily add:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Acknowledgments 🙏
+## Acknowledgments 
 
 - Weather data provided by [OpenWeatherMap](https://openweathermap.org/)
 - Icons from [React Icons](https://react-icons.github.io/react-icons/)
 - Built with [Create React App](https://create-react-app.dev/)
 
-## Author 🙏
+## Author 
 - Thembelihle Maluka | FullStack Developer
